@@ -1,0 +1,22 @@
+.bg-color {
+  background-color: #f5d5f5;
+}
+
+* {
+  box-sizing: border-box;
+  font-family: Humming;
+}
+
+html,
+body,
+#root {
+  height: 100%;
+  margin: 0;
+  padding: 0;
+  width: 100%;
+}
+
+@font-face {
+  font-family: Humming;
+  src: url(humming.otf);
+}
