@@ -38,18 +38,25 @@ export const RegisterStepOne: React.FC = () => {
         </div>
         <div className="row">
           <RegisterValidatedTextInputName
+            label="My name is"
             valueName="name"
             value={state.name}
-            maxLength={50}
+            maxLength={16}
+            obligatory={true}
           />
           <RegisterValidatedTextInputName
+            label="My username is"
             valueName="username"
             value={state.username}
             maxLength={25}
+            obligatory={true}
           />
         </div>
         <RegisterValidatedTextInputEmail value={state.email} />
       </div>
+      <p className="reg-step-one-paragraph">
+        Please note: Fields marked with '*' are obligatory.
+      </p>
       <RegisterNextButton
         disabled={!buttonActive}
         color={buttonActive ? "success" : "black"}

@@ -1,0 +1,28 @@
+.validated-select-input-label {
+  width: 100%;
+  margin: 0;
+  padding-bottom: 5px;
+  font-size: 15px;
+  color: #37a4aa;
+}
+
+.validated-select-input-container {
+  height: fit-content;
+  width: 100%;
+  padding: 15px;
+  padding-right: 5px;
+  padding-top: 0;
+  display: flex;
+  flex-direction: column;
+}
+
+.validated-select-input-select {
+  background-color: #fefff1;
+  border-color: #8c9dab;
+  color: #384e53;
+  border-radius: 20px;
+}
+
+.validated-select-input-select:focus {
+  border-color: #00b6aa;
+}

@@ -9,6 +9,8 @@
   width: 100%;
   margin: 0;
   padding: 0;
+  display: flex;
+  flex-direction: row;
 }
 
 .register-validated-text-input-error {
@@ -16,14 +18,12 @@
   color: #fa7f55;
   padding: 0;
   margin-left: 20px;
-  margin-top: 0px;
+  margin-top: 80px;
   font-size: 13px;
 }
 
-.validated-text-input-remainder {
-  position: absolute;
-  top: 5px;
-  right: 10px;
-  font-size: 10px;
-  color: #8ddac1;
+.register-validated-text-input-obligatory {
+  padding-top: 10px;
+  margin: 0px;
+  color: #fa7f55;
 }

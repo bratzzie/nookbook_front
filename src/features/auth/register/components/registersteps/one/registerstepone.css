@@ -31,3 +31,11 @@
   object-fit: contain;
   padding-top: 10px;
 }
+
+.reg-step-one-paragraph {
+  justify-content: center;
+  align-self: center;
+  font-size: 13px;
+  color: #8c9dab;
+  margin-top: 20px;
+}

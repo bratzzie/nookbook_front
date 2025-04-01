@@ -1,15 +1,41 @@
-import React from "react";
-import { useDispatch } from "react-redux";
+import React, { useEffect, useState } from "react";
+import { useDispatch, useSelector } from "react-redux";
 import { incremenetStep } from "../../../../../../redux/slices/RegisterSlice";
-import { AppDispatch } from "../../../../../../redux/Store";
+import { AppDispatch, RootState } from "../../../../../../redux/Store";
 import { RegisterNextButton } from "../../registernextbutton/RegisterNextButton";
 import "./registersteptwo.css";
+import { RegisterValidatedTextInputName } from "../../registermodal/registertextinput/RegisterValidatedTextInputName";
+import { RegisterValidatedSelectInput } from "../../registermodal/registerselectinput/RegisterValidatedSelectInput";
+import "../../../../../../assets/global.css";
 
 export const RegisterStepTwo: React.FC = () => {
+  const state = useSelector((state: RootState) => state.register);
   const dispatch: AppDispatch = useDispatch();
-  const nextStep = () => {
+
+  const [buttonActive, setButtonActive] = useState<boolean>(true);
+
+  const nextPage = () => {
     dispatch(incremenetStep());
   };
+
+  useEffect(() => {
+    if (state.nameValid && state.usernameValid && state.emailValid) {
+      setButtonActive(true);
+    } else setButtonActive(false);
+  }, [state]);
+
+  const hemisphereValues: Map<string, string> = new Map<string, string>([
+    ["north", "Northern Hemisphere"],
+    ["south", "Southern Hemisphere"],
+  ]);
+
+  const fruitValues: Map<string, string> = new Map<string, string>([
+    ["peaches", "Peaches"],
+    ["apples", "Apples"],
+    ["cherries", " Cherries"],
+    ["oranges", "Oranges"],
+    ["pears", "Pears"],
+  ]);
 
   return (
     <div className="reg-step-two-container">
@@ -17,28 +43,45 @@ export const RegisterStepTwo: React.FC = () => {
         <div className="row">
           <img
             className="reg-step-two-image"
-            src={`${process.env.PUBLIC_URL}/assets/images/ticket.png`}
+            src={`${process.env.PUBLIC_URL}/assets/images/package.png`}
             alt="placeholder"
           />
           <h1 className="reg-step-two-title">
-            Your experience is important to us!
+            Do you want to share a little bit more about yourself?
           </h1>
         </div>
-        <p className="reg-step-two-paragraph">
-          Your private information and web browsing history will never be
-          stored.
-        </p>
+        <RegisterValidatedTextInputName
+          label="My island name is"
+          valueName="islandName"
+          value={state.islandName || ""}
+          maxLength={10}
+          obligatory={false}
+        />
+        <div className="row">
+          <RegisterValidatedSelectInput
+            valueName="hemisphere"
+            valueLabel="My island is located in..."
+            selected={state.hemisphere || "UNDEFINED"}
+            allValues={hemisphereValues}
+          />
+          <RegisterValidatedSelectInput
+            valueName="nativeFruit"
+            valueLabel="My first fruits were..."
+            selected={state.nativeFruit || "UNDEFINED"}
+            allValues={fruitValues}
+          />
+        </div>
 
-        <p className="reg-step-two-paragraph">
-          By signing up, you agree to our{" "}
-          <span className="reg-step-two-link">Terms of Service</span>,{" "}
-          <span className="reg-step-two-link">Privacy Policy</span> and{" "}
-          <span className="reg-step-two-link">Cookie use</span>.{" "}
-          <span className="reg-step-two-link">Learn more.</span>
-        </p>
+        <RegisterValidatedTextInputName
+          label="My Creator Id is"
+          valueName="creatorId"
+          value={state.creatorId || ""}
+          maxLength={12}
+          obligatory={false}
+        />
       </div>
-      <RegisterNextButton active={true} color="success" onClick={nextStep}>
-        I Agree!
+      <RegisterNextButton active={true} color="success" onClick={nextPage}>
+        Next!
       </RegisterNextButton>
     </div>
   );
