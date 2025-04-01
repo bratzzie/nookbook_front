@@ -8,7 +8,8 @@ interface RegisterSliceState {
     email: string,
     emailValid: boolean,
     username: string,
-    usernameValid: boolean
+    usernameValid: boolean,
+    step: number
 }
 
 interface UpdatePayload {
@@ -24,7 +25,8 @@ const initialState : RegisterSliceState = {
     email: "",
     emailValid: false,
     username: "",
-    usernameValid: false
+    usernameValid: false,
+    step: 1
 }
 
 export const RegisterSlice = createSlice({
@@ -35,9 +37,23 @@ export const RegisterSlice = createSlice({
             let {name, value} = action.payload
             state = {...state, [name]: value}
             return state
+    },
+    
+    incremenetStep(state) {
+        state.step++
+        return state
+    },
+
+    decrementStep(state) {
+        if(state.step === 1 || state.step === 4 || state.step >= 6)
+            return state
+        else {
+            state.step--
+            return state
+        }
     }
 }})
 
 
-export const {updateRegister} = RegisterSlice.actions
+export const {updateRegister, incremenetStep, decrementStep} = RegisterSlice.actions
 export default RegisterSlice.reducer

@@ -22,6 +22,6 @@ export const StyledInputLabel = styled.span<StyledInputProps>`
     margin: 0;
     padding: 0;
     font-size: ${(props) => props.active ? '12px' : '15px'};
-    top: ${(props) => props.active ? '2px' : '10px'};
+    top: ${(props) => props.active ? '2px' : '12px'};
         color: ${(props) => determineLabelColor(props)};
     `

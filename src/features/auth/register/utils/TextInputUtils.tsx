@@ -75,3 +75,16 @@ export const determineValidatedStyles = (state:ValidatedInputState, validator: (
 
     return state
 }
+
+export const determineValidatedTextLabel = (active:boolean, valid:boolean): string => {
+    if(!valid && active)
+        return "error"
+
+    if(valid && active)
+        return "primary_blue"
+
+    if(!valid && !active)
+        return "error"
+
+    return "light_gray"
+}

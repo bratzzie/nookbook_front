@@ -7,7 +7,8 @@ interface ThemeColors {
     primary_brown: string
     sand: string,
     error: string,
-    input: string
+    input: string,
+    success: string
 }
 
 export interface Theme {
@@ -28,4 +29,10 @@ export interface ValidatedInputState {
     labelActive : boolean,
     labelColor: string,
     value: string
+}
+
+export interface RegisterNextButtonProps {
+    active: boolean,
+    theme: Theme,
+    color: string
 }

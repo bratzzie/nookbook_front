@@ -1,0 +1,29 @@
+.register-validated-text-input-container {
+  width: 100%;
+  display: flex;
+  justify-content: space-between;
+  margin-bottom: 25px;
+}
+
+.register-validated-text-input-content {
+  width: 100%;
+  margin: 0;
+  padding: 0;
+}
+
+.register-validated-text-input-error {
+  position: absolute;
+  color: #fa7f55;
+  padding: 0;
+  margin-left: 20px;
+  margin-top: 0px;
+  font-size: 13px;
+}
+
+.validated-text-input-remainder {
+  position: absolute;
+  top: 5px;
+  right: 10px;
+  font-size: 10px;
+  color: #8ddac1;
+}

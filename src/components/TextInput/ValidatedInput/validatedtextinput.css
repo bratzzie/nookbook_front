@@ -1,0 +1,27 @@
+.validated-text-input-container {
+  height: fit-content;
+  width: 100%;
+  padding: 15px;
+  display: flex;
+  flex-direction: column;
+}
+
+.validated-input {
+  position: absolute;
+  bottom: 5px;
+  left: 10px;
+  width: 90%;
+  line-height: 26px;
+  font-size: 14px;
+  font-weight: 300;
+  background-color: rgb(254, 255, 241, 0);
+  border: none;
+  padding: 0;
+  z-index: 5;
+  color: #384e53;
+}
+
+.validated-input:focus {
+  outline: none;
+  border: none;
+}

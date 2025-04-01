@@ -10,6 +10,7 @@ export const theme:Theme = {
     primary_brown: '#6b5e53',
     sand: '#8d8169',
     error: '#fa7f55',
-    input: '#fefff1'
+    input: '#fefff1',
+    success: '#00b6aa'
   }
 }

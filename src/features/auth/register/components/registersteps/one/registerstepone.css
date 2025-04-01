@@ -1,0 +1,33 @@
+.reg-step-one-container {
+  width: 100%;
+  height: fit-content;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+
+.reg-step-one-content {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-content: center;
+  width: 75%;
+}
+
+.row {
+  display: flex;
+  flex-direction: row;
+}
+
+.reg-step-one-title {
+  font-size: 25px;
+  color: #8d8169;
+}
+
+.reg-step-one-image {
+  width: 30%;
+  height: 100%;
+  object-fit: contain;
+  padding-top: 10px;
+}
