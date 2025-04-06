@@ -27,15 +27,15 @@ export const validateEmail = (value: string): boolean => {
 
 export const validatePassword = (value: string): boolean => {
   /* 
-   - at least 8 characters
-   - must contain at least 1 uppercase letter, 1 lowercase letter, and 1 number
-   - can contain special characters
-   by psutton3756
-*/
+    - at least 8 characters
+    - must contain at least 1 uppercase letter, 1 lowercase letter, and 1 number
+    - can contain special characters
+    - max of 20 characters
+   */
 
   return (
-    value.length > 0 &&
-    value.length <= 8 &&
+    value.length >= 8 &&
+    value.length <= 20 &&
     !!value.match(/^(?=.*\d)(?=.*[a-z])(?=.*[A-Z])(?=.*[a-zA-Z]).{8,}$/gm)
   );
 };

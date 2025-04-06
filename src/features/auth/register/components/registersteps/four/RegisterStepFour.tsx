@@ -2,7 +2,10 @@ import React from "react";
 import "../registersteps.css";
 import { ValidatedDisplay } from "../../../../../../components/TextInput/ValidatedInput/ValidatedDisplay";
 import { useSelector, useDispatch } from "react-redux";
-import { registerUser } from "../../../../../../redux/slices/RegisterSlice";
+import {
+  registerUser,
+  requestEmailVerification,
+} from "../../../../../../redux/slices/RegisterSlice";
 import { RootState, AppDispatch } from "../../../../../../redux/Store";
 import { RegisterNextButton } from "../../registernextbutton/RegisterNextButton";
 
@@ -10,7 +13,7 @@ export const RegisterStepFour: React.FC = () => {
   const state = useSelector((state: RootState) => state.register);
   const dispatch: AppDispatch = useDispatch();
 
-  const submitForm = () => {
+  const submitForm = async () => {
     const user = {
       name: state.name,
       email: state.email,
@@ -21,7 +24,14 @@ export const RegisterStepFour: React.FC = () => {
       creatorId: state.creatorId ?? undefined,
     };
 
-    dispatch(registerUser(user));
+    const resultAction = await dispatch(registerUser(user));
+
+    if (registerUser.fulfilled.match(resultAction)) {
+      console.log("Registration successful:", resultAction.payload);
+      dispatch(requestEmailVerification(user.username));
+    } else if (registerUser.rejected.match(resultAction)) {
+      console.error("Registration failed:", resultAction.payload);
+    }
   };
 
   const amountOfOptionalFields = () => {
@@ -36,7 +46,16 @@ export const RegisterStepFour: React.FC = () => {
   return (
     <div className="reg-step-container">
       <div className="reg-step-content">
-        <h1 className="reg-step-title">Check your registration details</h1>
+        <div className="row">
+          <img
+            className="w-1/4"
+            src={`${process.env.PUBLIC_URL}/assets/images/hairstyles.png`}
+            alt="placeholder"
+          />
+          <h1 className="reg-step-title pt-2">
+            Check your registration details
+          </h1>
+        </div>
         <ValidatedDisplay label={"Name"} value={state.name} />
         <ValidatedDisplay label={"Username"} value={state.username} />
         <ValidatedDisplay label={"Email"} value={state.email} />
