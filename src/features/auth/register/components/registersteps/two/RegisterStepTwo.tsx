@@ -3,7 +3,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { incremenetStep } from "../../../../../../redux/slices/RegisterSlice";
 import { AppDispatch, RootState } from "../../../../../../redux/Store";
 import { RegisterNextButton } from "../../registernextbutton/RegisterNextButton";
-import "./registersteptwo.css";
+import "../registersteps.css";
 import { RegisterValidatedTextInputName } from "../../registermodal/registertextinput/RegisterValidatedTextInputName";
 import { RegisterValidatedSelectInput } from "../../registermodal/registerselectinput/RegisterValidatedSelectInput";
 import "../../../../../../assets/global.css";
@@ -25,8 +25,8 @@ export const RegisterStepTwo: React.FC = () => {
   }, [state]);
 
   const hemisphereValues: Map<string, string> = new Map<string, string>([
-    ["north", "Northern Hemisphere"],
-    ["south", "Southern Hemisphere"],
+    ["north", "Northern"],
+    ["south", "Southern"],
   ]);
 
   const fruitValues: Map<string, string> = new Map<string, string>([
@@ -38,15 +38,15 @@ export const RegisterStepTwo: React.FC = () => {
   ]);
 
   return (
-    <div className="reg-step-two-container">
-      <div className="reg-step-two-content">
+    <div className="reg-step-container">
+      <div className="reg-step-content">
         <div className="row">
           <img
-            className="reg-step-two-image"
+            className="reg-step-image"
             src={`${process.env.PUBLIC_URL}/assets/images/package.png`}
             alt="placeholder"
           />
-          <h1 className="reg-step-two-title">
+          <h1 className="reg-step-title">
             Do you want to share a little bit more about yourself?
           </h1>
         </div>

@@ -25,7 +25,7 @@ export const RegisterValidatedTextInputName: React.FC<
     if (e.target.name === valueName) {
       dispatch(updateRegister({ name: e.target.name, value: e.target.value }));
 
-      let valid = validateName(e.target.value);
+      let valid = validateName(e.target.value, maxLength);
 
       setNameValid(valid);
 
@@ -52,7 +52,7 @@ export const RegisterValidatedTextInputName: React.FC<
           <></>
         ) : (
           <span className="register-validated-text-input-error">
-            Please enter your{" "}
+            Please enter a valid{" "}
             {valueName.charAt(0).toUpperCase() + valueName.substring(1)}
           </span>
         )}

@@ -1,11 +1,14 @@
 import React, { useState, useEffect } from "react";
-import "./registerstepone.css";
+import "../registersteps.css";
 import { RegisterValidatedTextInputName } from "../../registermodal/registertextinput/RegisterValidatedTextInputName";
 import { RegisterValidatedTextInputEmail } from "../../registermodal/registertextinput/RegisterValidatedTextInputEmail";
 import { RegisterNextButton } from "../../registernextbutton/RegisterNextButton";
 import { useSelector, useDispatch } from "react-redux";
 import { AppDispatch, RootState } from "../../../../../../redux/Store";
-import { incremenetStep } from "../../../../../../redux/slices/RegisterSlice";
+import {
+  incremenetStep,
+  updateRegister,
+} from "../../../../../../redux/slices/RegisterSlice";
 
 export const RegisterStepOne: React.FC = () => {
   const state = useSelector((state: RootState) => state.register);
@@ -14,6 +17,7 @@ export const RegisterStepOne: React.FC = () => {
   const [buttonActive, setButtonActive] = useState<boolean>(false);
 
   const nextPage = () => {
+    dispatch(updateRegister({ name: "error", value: "" }));
     dispatch(incremenetStep());
   };
 
@@ -24,15 +28,15 @@ export const RegisterStepOne: React.FC = () => {
   }, [state]);
 
   return (
-    <div className="reg-step-one-container">
-      <div className="reg-step-one-content">
+    <div className="reg-step-container">
+      <div className="reg-step-content">
         <div className="row">
           <img
-            className="reg-step-one-image"
+            className="w-1/4"
             src={`${process.env.PUBLIC_URL}/assets/images/coconut_tree.png`}
             alt="placeholder"
           />
-          <h1 className="reg-step-one-title">
+          <h1 className="reg-step-title">
             Let's begin to create your account!
           </h1>
         </div>
@@ -54,7 +58,7 @@ export const RegisterStepOne: React.FC = () => {
         </div>
         <RegisterValidatedTextInputEmail value={state.email} />
       </div>
-      <p className="reg-step-one-paragraph">
+      <p className="reg-step-paragraph">
         Please note: Fields marked with '*' are obligatory.
       </p>
       <RegisterNextButton

@@ -4,7 +4,11 @@ const flowbiteReact = require("flowbite-react/plugin/tailwindcss");
 module.exports = {
   content: ["./src/**/*.{js,jsx,ts,tsx}"],
   theme: {
-    extend: {},
+    extend: {
+      colors: {
+        error: "#fa7f55",
+      },
+    },
   },
   plugins: [flowbiteReact],
 };

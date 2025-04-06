@@ -1,4 +1,4 @@
-.reg-step-three-container {
+.reg-step-container {
   width: 100%;
   height: fit-content;
   display: flex;
@@ -7,7 +7,7 @@
   align-items: center;
 }
 
-.reg-step-three-content {
+.reg-step-content {
   display: flex;
   flex-direction: column;
   justify-content: center;
@@ -20,28 +20,32 @@
   flex-direction: row;
 }
 
-.reg-step-three-title {
+.reg-step-title {
   font-size: 25px;
   color: #8d8169;
 }
 
-.reg-step-three-paragraph {
-  color: #82725a;
-  font-size: 16px;
-}
-
-.reg-step-three-link {
-  color: #37a4aa;
-  cursor: pointer;
-}
-
-.reg-step-three-link:hover {
-  text-decoration: underline;
-}
-
-.reg-step-three-image {
+.reg-step-image {
   width: 30%;
   height: 100%;
   object-fit: contain;
   padding-top: 10px;
+  padding-right: 5px;
+}
+
+.reg-step-paragraph {
+  justify-content: center;
+  align-self: center;
+  font-size: 13px;
+  color: #8c9dab;
+  margin-top: 20px;
+}
+
+.reg-step-link {
+  color: #37a4aa;
+  cursor: pointer;
+}
+
+.reg-step-link:hover {
+  text-decoration: underline;
 }

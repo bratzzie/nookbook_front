@@ -51,7 +51,7 @@ export const ValidatedSelectInput: React.FC<ValidatedSelectInputProps> = ({
         >
           <option value="--">--</option>
           {Array.from(items).map(([key, itemValue]) => (
-            <option key={key} value={key}>
+            <option key={key} value={itemValue}>
               {itemValue}
             </option>
           ))}
