@@ -1,17 +1,21 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { ValidatedTextInput } from "../../../../../../components/TextInput/ValidatedInput/ValidatedTextInput";
 import { VisibilityOutlined, VisibilityOffOutlined } from "@mui/icons-material";
 import { RegisterNextButton } from "../../registernextbutton/RegisterNextButton";
 import { useSelector, useDispatch } from "react-redux";
 import { AppDispatch, RootState } from "../../../../../../redux/Store";
 import { updatePassword } from "../../../../../../redux/slices/RegisterSlice";
+import {
+  loginUser,
+  setFromRegistration,
+} from "../../../../../../redux/slices/UserSlice";
 import { useNavigate } from "react-router-dom";
 import "../registersteps.css";
 
 export const RegisterStepSix = () => {
   const [visible, setVisible] = useState<boolean>(false);
   const [password, setPassword] = useState<string>("");
-  const state = useSelector((state: RootState) => state.register);
+  const state = useSelector((state: RootState) => state);
   const dispatch: AppDispatch = useDispatch();
   const navigate = useNavigate();
 
@@ -26,13 +30,29 @@ export const RegisterStepSix = () => {
   const sendPassword = async () => {
     await dispatch(
       updatePassword({
-        username: state.username,
+        username: state.register.username,
         password: password,
       })
     );
 
-    navigate("/feed");
+    dispatch(setFromRegistration(true));
   };
+
+  useEffect(() => {
+    if (state.user.loggedIn) {
+      navigate("/feed");
+      return () => {};
+    }
+    if (state.user.fromRegistration) {
+      dispatch(
+        loginUser({
+          username: state.register.username,
+          password: password,
+        })
+      );
+      return;
+    }
+  }, [state.user.fromRegistration, state.user.loggedIn]);
 
   return (
     <div className="reg-step-container">

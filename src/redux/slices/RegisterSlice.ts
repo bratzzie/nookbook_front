@@ -11,6 +11,7 @@ interface RegisterSliceState {
   username: string;
   usernameValid: boolean;
   step: number;
+  login: boolean;
   islandName?: string;
   hemisphere?: string;
   nativeFruit?: string;
@@ -52,6 +53,7 @@ const initialState: RegisterSliceState = {
   username: "",
   usernameValid: false,
   step: 1,
+  login: false,
 };
 
 export const RegisterSlice = createSlice({
@@ -75,6 +77,11 @@ export const RegisterSlice = createSlice({
         state.step--;
         return state;
       }
+    },
+    cleanRegisterState(state) {
+      state = initialState;
+      console.log("Register state cleaned");
+      return state;
     },
   },
   extraReducers: (builder) => {
@@ -141,6 +148,7 @@ export const RegisterSlice = createSlice({
         ...state,
         loading: false,
         error: "",
+        login: true,
       };
       return state;
     });
@@ -265,6 +273,10 @@ export const updatePassword = createAsyncThunk(
   }
 );
 
-export const { updateRegister, incremenetStep, decrementStep } =
-  RegisterSlice.actions;
+export const {
+  updateRegister,
+  incremenetStep,
+  decrementStep,
+  cleanRegisterState,
+} = RegisterSlice.actions;
 export default RegisterSlice.reducer;

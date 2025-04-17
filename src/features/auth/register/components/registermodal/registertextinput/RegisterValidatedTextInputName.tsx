@@ -23,6 +23,7 @@ export const RegisterValidatedTextInputName: React.FC<
 
   const updateValue = (e: React.ChangeEvent<HTMLInputElement>): void => {
     if (e.target.name === valueName) {
+      console.log("e. target. name is:", e.target.name);
       dispatch(updateRegister({ name: e.target.name, value: e.target.value }));
 
       let valid = validateName(e.target.value, maxLength);
