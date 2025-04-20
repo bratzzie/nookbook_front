@@ -8,10 +8,11 @@ import "./registervalidatedtextinput.css";
 
 interface RegisterValidatedTextInputEmailProps {
   value: string;
+  label: string;
 }
 export const RegisterValidatedTextInputEmail: React.FC<
   RegisterValidatedTextInputEmailProps
-> = ({ value }) => {
+> = ({ value, label }) => {
   const [emailValid, setEmailValid] = useState<boolean>(true);
 
   const dispatch: AppDispatch = useDispatch();
@@ -33,7 +34,7 @@ export const RegisterValidatedTextInputEmail: React.FC<
         <ValidatedTextInput
           valid={emailValid}
           name="email"
-          label="Email"
+          label={label}
           changeValue={updateValue}
           data={value}
         />

@@ -56,7 +56,7 @@ export const RegisterStepOne: React.FC = () => {
             obligatory={true}
           />
         </div>
-        <RegisterValidatedTextInputEmail value={state.email} />
+        <RegisterValidatedTextInputEmail value={state.email} label="Email" />
       </div>
       <p className="reg-step-paragraph">
         Please note: Fields marked with '*' are obligatory.

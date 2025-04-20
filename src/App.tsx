@@ -1,6 +1,6 @@
 import React from "react";
 import "./assets/global.css";
-import { Home } from "./pages/home";
+import { Landing } from "./pages/landing";
 import { ThemeProvider, createGlobalStyle } from "styled-components";
 import { theme } from "./Theme";
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
@@ -17,7 +17,7 @@ export const App = () => {
       <GlobalStyle />
       <Router>
         <Routes>
-          <Route path="/" element={<Home />} />
+          <Route path="/" element={<Landing />} />
           <Route path="/feed" element={<Feed />} />
         </Routes>
       </Router>
