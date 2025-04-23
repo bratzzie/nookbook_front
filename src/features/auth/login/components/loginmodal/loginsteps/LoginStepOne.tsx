@@ -1,11 +1,70 @@
 import React, { useState } from "react";
+import { AppDispatch, RootState } from "../../../../../../redux/Store";
+import { useDispatch, useSelector } from "react-redux";
+import {
+  updateLogin,
+  verifyUsername,
+} from "../../../../../../redux/slices/UserSlice";
 import "../../../../register/components/registersteps/registersteps.css";
 import { RegisterValidatedTextInputEmail } from "../../../../register/components/registermodal/registertextinput/RegisterValidatedTextInputEmail";
 import { RegisterNextButton } from "../../../../register/components/registernextbutton/RegisterNextButton";
 import { RegisterValidatedTextInputName } from "../../../../register/components/registermodal/registertextinput/RegisterValidatedTextInputName";
+import {
+  validateEmail,
+  validateName,
+} from "../../../../../../services/Validators";
+import { incrementStep } from "../../../../../../redux/slices/UserSlice";
+
 export const LoginStepOne: React.FC = () => {
+  const state = useSelector((state: RootState) => state.user);
+  const dispatch: AppDispatch = useDispatch();
+
+  const [credentialEmail, setCredentialEmail] = useState<string>("");
+  const [credentialUsername, setCredentialUsername] = useState<string>("");
+  const [credentialUsernameValid, setCredentialUsernameValid] =
+    useState<boolean>(true);
+  const [credentialEmailValid, setCredentialEmailValid] =
+    useState<boolean>(true);
   const [buttonActive, setButtonActive] = useState<boolean>(false);
-  const nextPage = () => {};
+
+  const nextPage = () => {
+    dispatch(updateLogin({ name: "error", value: "" }));
+    dispatch(incrementStep());
+  };
+
+  const updateValue = (e: React.ChangeEvent<HTMLInputElement>): void => {
+    if (e.target.name === "email") {
+      let valid = validateEmail(e.target.value);
+      setCredentialEmail(e.target.value);
+      setCredentialEmailValid(valid);
+      setButtonActive(valid);
+      setCredentialUsername("");
+      setCredentialUsernameValid(true);
+    } else if (e.target.name === "username") {
+      let valid = validateName(e.target.value, 25);
+      setCredentialUsernameValid(valid);
+      setCredentialUsername(e.target.value);
+      setButtonActive(valid);
+      setCredentialEmail("");
+      setCredentialEmailValid(true);
+    }
+  };
+
+  const findUsername = (): void => {
+    if (credentialEmailValid && credentialEmail != "") {
+      dispatch(
+        verifyUsername({
+          email: credentialEmail,
+          username: "",
+        })
+      );
+    } else if (credentialUsernameValid && credentialUsername != "") {
+      dispatch(verifyUsername({ email: "", username: credentialUsername }));
+    }
+
+    nextPage();
+  };
+
   return (
     <div className="reg-step-container">
       <div className="reg-step-content">
@@ -18,8 +77,11 @@ export const LoginStepOne: React.FC = () => {
           <h1 className="reg-step-title pt-7">Sign in your account!</h1>
         </div>
         <RegisterValidatedTextInputEmail
-          value={"state.email"}
+          value={credentialEmail}
           label="Sign in with email"
+          valid={credentialEmailValid}
+          updateValue={updateValue}
+          obligatory={false}
         />
         <div className="w-full flex justify-evenly items-center mb-5">
           <div className="w-full h-0.5 bg-sand"></div>
@@ -29,16 +91,24 @@ export const LoginStepOne: React.FC = () => {
         <RegisterValidatedTextInputName
           label="Sign in with username"
           valueName="username"
-          value={"state.username"}
+          value={credentialUsername}
           maxLength={25}
           obligatory={false}
+          updateValue={updateValue}
+          nameValid={credentialUsernameValid}
         />
+        {state.error ? (
+          <p className="text-sm text-error ml-4">Unable to find user</p>
+        ) : (
+          <></>
+        )}
       </div>
+
       <RegisterNextButton
         disabled={!buttonActive}
         color={buttonActive ? "success" : "black"}
         active={buttonActive}
-        onClick={nextPage}
+        onClick={findUsername}
       >
         Login
       </RegisterNextButton>

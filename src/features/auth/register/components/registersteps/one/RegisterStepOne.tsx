@@ -9,12 +9,19 @@ import {
   incremenetStep,
   updateRegister,
 } from "../../../../../../redux/slices/RegisterSlice";
+import {
+  validateEmail,
+  validateName,
+} from "../../../../../../services/Validators";
 
 export const RegisterStepOne: React.FC = () => {
   const state = useSelector((state: RootState) => state.register);
   const dispatch: AppDispatch = useDispatch();
 
   const [buttonActive, setButtonActive] = useState<boolean>(false);
+  const [nameValid, setNameValid] = useState<boolean>(true);
+  const [usernameValid, setUsernameValid] = useState<boolean>(true);
+  const [emailValid, setEmailValid] = useState<boolean>(true);
 
   const nextPage = () => {
     dispatch(updateRegister({ name: "error", value: "" }));
@@ -26,6 +33,34 @@ export const RegisterStepOne: React.FC = () => {
       setButtonActive(true);
     } else setButtonActive(false);
   }, [state]);
+
+  const updateValue = (e: React.ChangeEvent<HTMLInputElement>): void => {
+    if (e.target.name === "name") {
+      dispatch(updateRegister({ name: e.target.name, value: e.target.value }));
+
+      let valid = validateName(e.target.value, 16);
+
+      setNameValid(valid);
+
+      dispatch(updateRegister({ name: e.target.name + "Valid", value: valid }));
+    } else if (e.target.name === "username") {
+      dispatch(updateRegister({ name: e.target.name, value: e.target.value }));
+
+      let valid = validateName(e.target.value, 25);
+
+      setUsernameValid(valid);
+
+      dispatch(updateRegister({ name: e.target.name + "Valid", value: valid }));
+    } else if (e.target.name === "email") {
+      dispatch(updateRegister({ name: e.target.name, value: e.target.value }));
+
+      let valid = validateEmail(e.target.value);
+
+      setEmailValid(valid);
+
+      dispatch(updateRegister({ name: "emailValid", value: valid }));
+    }
+  };
 
   return (
     <div className="reg-step-container">
@@ -47,6 +82,8 @@ export const RegisterStepOne: React.FC = () => {
             value={state.name}
             maxLength={16}
             obligatory={true}
+            updateValue={updateValue}
+            nameValid={nameValid}
           />
           <RegisterValidatedTextInputName
             label="My username is"
@@ -54,9 +91,17 @@ export const RegisterStepOne: React.FC = () => {
             value={state.username}
             maxLength={25}
             obligatory={true}
+            updateValue={updateValue}
+            nameValid={usernameValid}
           />
         </div>
-        <RegisterValidatedTextInputEmail value={state.email} label="Email" />
+        <RegisterValidatedTextInputEmail
+          value={state.email}
+          label="Email"
+          valid={emailValid}
+          updateValue={updateValue}
+          obligatory={true}
+        />
       </div>
       <p className="reg-step-paragraph">
         Please note: Fields marked with '*' are obligatory.

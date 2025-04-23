@@ -1,9 +1,5 @@
-import React, { useState } from "react";
+import React, { ChangeEvent, useState } from "react";
 import { ValidatedTextInput } from "../../../../../../components/TextInput/ValidatedInput/ValidatedTextInput";
-import { useDispatch } from "react-redux";
-import { AppDispatch } from "../../../../../../redux/Store";
-import { updateRegister } from "../../../../../../redux/slices/RegisterSlice";
-import { validateName } from "../../../../../../services/Validators";
 import "./registervalidatedtextinput.css";
 
 interface RegisterValidatedTextInputsProps {
@@ -12,27 +8,21 @@ interface RegisterValidatedTextInputsProps {
   maxLength: number;
   obligatory: boolean;
   label: string;
+  updateValue(e: React.ChangeEvent<HTMLInputElement>): void;
+  nameValid: boolean;
 }
 
 export const RegisterValidatedTextInputName: React.FC<
   RegisterValidatedTextInputsProps
-> = ({ valueName, value, maxLength, obligatory, label }) => {
-  const [nameValid, setNameValid] = useState<boolean>(true);
-
-  const dispatch: AppDispatch = useDispatch();
-
-  const updateValue = (e: React.ChangeEvent<HTMLInputElement>): void => {
-    if (e.target.name === valueName) {
-      console.log("e. target. name is:", e.target.name);
-      dispatch(updateRegister({ name: e.target.name, value: e.target.value }));
-
-      let valid = validateName(e.target.value, maxLength);
-
-      setNameValid(valid);
-
-      dispatch(updateRegister({ name: valueName + "Valid", value: valid }));
-    }
-  };
+> = ({
+  valueName,
+  value,
+  maxLength,
+  obligatory,
+  label,
+  updateValue,
+  nameValid,
+}) => {
   return (
     <div className="register-validated-text-input-container">
       <div className="register-validated-text-input-content">

@@ -1,18 +1,25 @@
 import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { incremenetStep } from "../../../../../../redux/slices/RegisterSlice";
+import {
+  incremenetStep,
+  updateRegister,
+} from "../../../../../../redux/slices/RegisterSlice";
 import { AppDispatch, RootState } from "../../../../../../redux/Store";
 import { RegisterNextButton } from "../../registernextbutton/RegisterNextButton";
 import "../registersteps.css";
 import { RegisterValidatedTextInputName } from "../../registermodal/registertextinput/RegisterValidatedTextInputName";
 import { RegisterValidatedSelectInput } from "../../registermodal/registerselectinput/RegisterValidatedSelectInput";
 import "../../../../../../assets/global.css";
+import { validateName } from "../../../../../../services/Validators";
 
 export const RegisterStepTwo: React.FC = () => {
   const state = useSelector((state: RootState) => state.register);
   const dispatch: AppDispatch = useDispatch();
 
   const [buttonActive, setButtonActive] = useState<boolean>(true);
+
+  const [islandNameValid, setIslandNameValid] = useState<boolean>(true);
+  const [creatorIdValid, setCreatorIdValid] = useState<boolean>(true);
 
   const nextPage = () => {
     dispatch(incremenetStep());
@@ -37,6 +44,26 @@ export const RegisterStepTwo: React.FC = () => {
     ["pears", "Pears"],
   ]);
 
+  const updateValue = (e: React.ChangeEvent<HTMLInputElement>): void => {
+    if (e.target.name === "islandName") {
+      dispatch(updateRegister({ name: e.target.name, value: e.target.value }));
+
+      let valid = validateName(e.target.value, 10);
+
+      setIslandNameValid(valid);
+
+      dispatch(updateRegister({ name: e.target.name + "Valid", value: valid }));
+    } else if (e.target.name === "creatorId") {
+      dispatch(updateRegister({ name: e.target.name, value: e.target.value }));
+
+      let valid = validateName(e.target.value, 12);
+
+      setCreatorIdValid(valid);
+
+      dispatch(updateRegister({ name: e.target.name + "Valid", value: valid }));
+    }
+  };
+
   return (
     <div className="reg-step-container">
       <div className="reg-step-content">
@@ -56,6 +83,8 @@ export const RegisterStepTwo: React.FC = () => {
           value={state.islandName || ""}
           maxLength={10}
           obligatory={false}
+          updateValue={updateValue}
+          nameValid={islandNameValid}
         />
         <div className="row">
           <RegisterValidatedSelectInput
@@ -78,6 +107,8 @@ export const RegisterStepTwo: React.FC = () => {
           value={state.creatorId || ""}
           maxLength={12}
           obligatory={false}
+          updateValue={updateValue}
+          nameValid={creatorIdValid}
         />
       </div>
       <RegisterNextButton active={true} color="success" onClick={nextPage}>

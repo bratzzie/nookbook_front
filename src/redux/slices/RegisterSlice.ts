@@ -80,7 +80,6 @@ export const RegisterSlice = createSlice({
     },
     cleanRegisterState(state) {
       state = initialState;
-      console.log("Register state cleaned");
       return state;
     },
   },
@@ -261,11 +260,15 @@ export const updatePassword = createAsyncThunk(
   "auth/password",
   async (body: UpdatePassword, thunkAPI) => {
     try {
-      const req = await axios.put("http://localhost:8080/auth/password", body, {
-        headers: {
-          "Content-Type": "application/json",
-        },
-      });
+      const req = await axios.put(
+        "http://localhost:8080/auth/reg/password",
+        body,
+        {
+          headers: {
+            "Content-Type": "application/json",
+          },
+        }
+      );
       return await req.data;
     } catch (error: any) {
       return thunkAPI.rejectWithValue(error.response?.data || error.message);
