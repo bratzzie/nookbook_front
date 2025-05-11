@@ -4,10 +4,11 @@ import "../assets/global.css";
 import { RegisterModal } from "../features/auth/register/components/registermodal/RegisterModal";
 import { RightSideBar } from "../features/landing/rightsidebar/RightSideBar";
 import { LoginModal } from "../features/auth/login/components/loginmodal/LoginModal";
-
+import ForgotPasswordModal from "../features/auth/forgotpassword/components/forgotpasswordmodal/ForgotPasswordModal";
 export const Landing: React.FC = () => {
   const [register, setRegister] = useState<boolean>(false);
   const [login, setLogin] = useState<boolean>(false);
+  const [forgotPassword, setForgotPassword] = useState<boolean>(false);
 
   const toggleRegister = () => {
     setRegister(!register);
@@ -17,10 +18,27 @@ export const Landing: React.FC = () => {
     setLogin(!login);
   };
 
+  const toggleForgotPassword = () => {
+    setForgotPassword(!forgotPassword);
+  };
+
   return (
     <div className="bg-color">
       {register ? <RegisterModal toggleModal={toggleRegister} /> : <></>}
-      {login ? <LoginModal toggleModal={toggleLogin} /> : <></>}
+      {login ? (
+        <LoginModal
+          toggleModal={toggleLogin}
+          switchToRegister={toggleRegister}
+          switchToForgotPassword={toggleForgotPassword}
+        />
+      ) : (
+        <></>
+      )}
+      {forgotPassword ? (
+        <ForgotPasswordModal toggleModal={toggleForgotPassword} />
+      ) : (
+        <></>
+      )}
       <div className="w-full h-screen overflow-y-scroll grid grid-cols-2">
         <div className="h-full">
           <img

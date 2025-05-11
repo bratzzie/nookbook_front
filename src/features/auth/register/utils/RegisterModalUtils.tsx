@@ -27,10 +27,19 @@ export const determineModalContent = (step: number): JSX.Element => {
   }
 };
 
-export const determineLoginModalContent = (step: number): JSX.Element => {
+export const determineLoginModalContent = (
+  step: number,
+  toggleRegister: () => void,
+  toggleForgotPassword: () => void
+): JSX.Element => {
   switch (step) {
     case 1:
-      return <LoginStepOne />;
+      return (
+        <LoginStepOne
+          noAccount={toggleRegister}
+          forgotPassword={toggleForgotPassword}
+        />
+      );
     case 2:
       return <LoginStepTwo />;
     default:

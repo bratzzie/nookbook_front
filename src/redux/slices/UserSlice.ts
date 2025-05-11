@@ -5,6 +5,7 @@ import axios from "axios";
 interface UserSliceState {
   loggedIn: User | undefined;
   username: string;
+  token: string;
   fromRegistration: boolean;
   error: boolean;
   step: number;
@@ -28,6 +29,7 @@ interface UpdatePayload {
 const initialState: UserSliceState = {
   loggedIn: undefined,
   username: "",
+  token: "",
   fromRegistration: false,
   error: false,
   step: 1,
@@ -69,6 +71,15 @@ export const UserSlice = createSlice({
       state = { ...state, [name]: value };
       return state;
     },
+
+    setToken(state, action: PayloadAction<string>) {
+      state = {
+        ...state,
+        token: action.payload,
+      };
+
+      return state;
+    },
   },
   extraReducers: (builder) => {
     builder.addCase(loginUser.fulfilled, (state, action) => {
@@ -81,6 +92,7 @@ export const UserSlice = createSlice({
           username: action.payload.user.username,
           profilePicture: action.payload.user.profilePicture,
         },
+        token: action.payload.token,
       };
       return state;
     });
@@ -100,11 +112,23 @@ export const UserSlice = createSlice({
 
       return state;
     });
+    builder.addCase(loginUser.pending, (state, action) => {
+      state = {
+        ...state,
+        error: false,
+      };
+      return state;
+    });
+
     builder.addCase(verifyUsername.rejected, (state, action) => {
       state = {
         ...state,
         error: true,
       };
+      return state;
+    });
+    builder.addCase(loginUser.rejected, (state, action) => {
+      state = { ...state, error: true };
       return state;
     });
   },
@@ -117,7 +141,7 @@ export const loginUser = createAsyncThunk(
       const req = await axios.post("http://localhost:8080/auth/login", body);
       return req.data;
     } catch (e) {
-      thunkAPI.rejectWithValue(e);
+      return thunkAPI.rejectWithValue(e);
     }
   }
 );
@@ -146,5 +170,6 @@ export const {
   decrementStep,
   cleanLoginState,
   updateLogin,
+  setToken,
 } = UserSlice.actions;
 export default UserSlice.reducer;

@@ -9,9 +9,15 @@ import { cleanLoginState } from "../../../../../redux/slices/UserSlice";
 
 interface LoginModalProps {
   toggleModal: () => void;
+  switchToRegister: () => void;
+  switchToForgotPassword: () => void;
 }
 
-export const LoginModal: React.FC<LoginModalProps> = ({ toggleModal }) => {
+export const LoginModal: React.FC<LoginModalProps> = ({
+  toggleModal,
+  switchToRegister,
+  switchToForgotPassword,
+}) => {
   const state = useSelector((state: RootState) => state.user);
   const dispatch: AppDispatch = useDispatch();
 
@@ -23,13 +29,26 @@ export const LoginModal: React.FC<LoginModalProps> = ({ toggleModal }) => {
     }
     dispatch(decrementStep());
   };
-
+  const toggleRegister = () => {
+    toggleModal();
+    dispatch(cleanLoginState());
+    switchToRegister();
+  };
+  const toggleForgotPassword = () => {
+    toggleModal();
+    dispatch(cleanLoginState());
+    switchToForgotPassword();
+  };
   return (
     <Modal>
-      <div className="login-modal">
+      <div>
         <RegisterStepCounter step={state.step} changeStep={stepButtonClicked} />
-        <div className="register-modal-content">
-          {determineLoginModalContent(state.step)}
+        <div>
+          {determineLoginModalContent(
+            state.step,
+            toggleRegister,
+            toggleForgotPassword
+          )}
         </div>
       </div>
     </Modal>

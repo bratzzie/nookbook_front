@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { RootState } from "../../../../../../redux/Store";
 import { ValidatedTextInput } from "../../../../../../components/TextInput/ValidatedInput/ValidatedTextInput";
@@ -8,11 +8,13 @@ import { RegisterNextButton } from "../../../../register/components/registernext
 import { loginUser } from "../../../../../../redux/slices/UserSlice";
 import { AppDispatch } from "../../../../../../redux/Store";
 import { validatePassword } from "../../../../../../services/Validators";
+import { useNavigate } from "react-router-dom";
 import "../../../../register/components/registersteps/registersteps.css";
 export const LoginStepTwo: React.FC = () => {
   const state = useSelector((state: RootState) => state.user);
   const [active, setActive] = useState<boolean>(false);
   const dispatch: AppDispatch = useDispatch();
+  const navigate = useNavigate();
 
   const toggleVisibility = () => {
     setActive(!active);
@@ -35,6 +37,14 @@ export const LoginStepTwo: React.FC = () => {
     return validatePassword(password);
   };
 
+  useEffect(() => {
+    if (state.loggedIn) {
+      navigate("/home");
+
+      return () => {};
+    }
+  });
+
   return (
     <div className="reg-step-container">
       <div className="reg-step-content">
@@ -52,7 +62,7 @@ export const LoginStepTwo: React.FC = () => {
         ></DisabledValidatedTextInput>
         <div className="mt-6 mb-0 row">
           <ValidatedTextInput
-            valid={true}
+            valid={!state.error}
             label={"Password"}
             name="Password"
             changeValue={handlePassword}
@@ -72,6 +82,11 @@ export const LoginStepTwo: React.FC = () => {
             )}
           </div>
         </div>
+        {state.error ? (
+          <p className="test-sm text-error mt-1 ml-5">Password is incorrect</p>
+        ) : (
+          <></>
+        )}
         <p className="text-sm mt-0 ml-5 mb-8 text-link hover:cursor-pointer hover:underline">
           Forgot Password?
         </p>

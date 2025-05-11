@@ -15,7 +15,15 @@ import {
 } from "../../../../../../services/Validators";
 import { incrementStep } from "../../../../../../redux/slices/UserSlice";
 
-export const LoginStepOne: React.FC = () => {
+interface LoginStepOneProps {
+  noAccount: () => void;
+  forgotPassword: () => void;
+}
+
+export const LoginStepOne: React.FC<LoginStepOneProps> = ({
+  noAccount,
+  forgotPassword,
+}) => {
   const state = useSelector((state: RootState) => state.user);
   const dispatch: AppDispatch = useDispatch();
 
@@ -50,19 +58,22 @@ export const LoginStepOne: React.FC = () => {
     }
   };
 
-  const findUsername = (): void => {
+  const findUsername = async (): Promise<void> => {
+    let answer;
     if (credentialEmailValid && credentialEmail != "") {
-      dispatch(
+      answer = await dispatch(
         verifyUsername({
           email: credentialEmail,
           username: "",
         })
       );
     } else if (credentialUsernameValid && credentialUsername != "") {
-      dispatch(verifyUsername({ email: "", username: credentialUsername }));
+      answer = await dispatch(
+        verifyUsername({ email: "", username: credentialUsername })
+      );
     }
 
-    nextPage();
+    if (verifyUsername.fulfilled.match(answer)) nextPage();
   };
 
   return (
@@ -113,11 +124,17 @@ export const LoginStepOne: React.FC = () => {
         Login
       </RegisterNextButton>
 
-      <button className="w-3/4 mt-6 h-12 text-primary_dark_green bg-white text-base rounded-[30px] hover:cursor-pointer">
+      <button
+        className="w-3/4 mt-6 h-12 text-primary_dark_green bg-white text-base rounded-[30px] hover:cursor-pointer"
+        onClick={forgotPassword}
+      >
         Forgot Password?
       </button>
       <p className="reg-step-paragraph mt-10">
-        Don't have an account? <span className="reg-step-link">Sign Up</span>
+        Don't have an account?{" "}
+        <span className="reg-step-link" onClick={noAccount}>
+          Sign Up
+        </span>
       </p>
     </div>
   );

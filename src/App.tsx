@@ -18,7 +18,7 @@ export const App = () => {
       <Router>
         <Routes>
           <Route path="/" element={<Landing />} />
-          <Route path="/feed" element={<Feed />} />
+          <Route path="/home" element={<Feed />} />
         </Routes>
       </Router>
     </ThemeProvider>
