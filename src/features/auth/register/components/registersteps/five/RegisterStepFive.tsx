@@ -56,7 +56,7 @@ export const RegisterStepFive: React.FC = () => {
           changeValue={handleChange}
         />
         <p className="reg-step-paragraph">
-          Did't recieve a message?{" "}
+          Didn't recieve a message?{" "}
           <span className="reg-step-link" onClick={requestCode}>
             Click here.
           </span>

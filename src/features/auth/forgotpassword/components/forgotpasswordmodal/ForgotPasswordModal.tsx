@@ -2,66 +2,31 @@ import React, { useState } from "react";
 import { Modal } from "../../../../../components/Modal/Modal";
 import { RegisterStepCounter } from "../../../register/components/registerstepcounter/RegisterStepCounter";
 import ForgotPasswordStepOne from "./forgotpasswordsteps/ForgotPasswordStepOne";
-import {
-  validateEmail,
-  validateName,
-} from "../../../../../services/Validators";
-import axios from "axios";
+import { AppDispatch, RootState } from "../../../../../redux/Store";
+import { useDispatch, useSelector } from "react-redux";
+import { decrementStep } from "../../../../../redux/slices/ForgotPasswordSlice";
+import { cleanForgotPasswordState } from "../../../../../redux/slices/ForgotPasswordSlice";
+import { determineForgotPasswordModalContent } from "../../../register/utils/RegisterModalUtils";
 const ForgotPasswordModal: React.FC<{ toggleModal: () => void }> = ({
   toggleModal,
 }) => {
+  const state = useSelector((state: RootState) => state.forgotPassword);
+  const dispatch: AppDispatch = useDispatch();
+
   const stepButtonClicked = () => {
-    /*
-          if (state.step == 1) {
-              toggleModal();
-              dispatch(cleanLoginState());
-              return;
-            }
-            dispatch(decrementStep()); */
-  };
-  const [credential, setCredential] = useState<string>("");
-  const [error, setError] = useState<boolean>(false);
-  const [step, setStep] = useState<number>(1);
-
-  const searchUser = async () => {
-    let findUserDTO = {
-      email: "",
-      password: "",
-      username: "",
-    };
-
-    if (validateEmail(credential))
-      findUserDTO = { ...findUserDTO, email: credential };
-    else if (validateName(credential, 25))
-      findUserDTO = { ...findUserDTO, username: credential };
-
-    try {
-      setError(false);
-      let res = await axios.post(
-        "http://localhost:8080/login/find",
-        findUserDTO
-      );
-      let data = await res.data;
-      setStep(2);
-    } catch (e) {
-      setError(true);
+    if (state.step == 1) {
+      toggleModal();
+      dispatch(cleanForgotPasswordState());
+      return;
     }
-  };
-
-  const changeCredential = (credential: string) => {
-    setCredential(credential);
+    dispatch(decrementStep());
   };
 
   return (
     <Modal>
       <div>
-        <RegisterStepCounter step={step} changeStep={stepButtonClicked} />
-        <div>
-          <ForgotPasswordStepOne
-            setCredential={changeCredential}
-            error={false}
-          />
-        </div>
+        <RegisterStepCounter step={state.step} changeStep={stepButtonClicked} />
+        <div>{determineForgotPasswordModalContent(state.step)}</div>
       </div>
     </Modal>
   );

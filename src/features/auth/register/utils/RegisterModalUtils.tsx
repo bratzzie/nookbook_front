@@ -7,6 +7,8 @@ import { RegisterStepFive } from "../components/registersteps/five/RegisterStepF
 import { RegisterStepSix } from "../components/registersteps/six/RegisterStepSix";
 import { LoginStepOne } from "../../login/components/loginmodal/loginsteps/LoginStepOne";
 import { LoginStepTwo } from "../../login/components/loginmodal/loginsteps/LoginStepTwo";
+import ForgotPasswordStepOne from "../../forgotpassword/components/forgotpasswordmodal/forgotpasswordsteps/ForgotPasswordStepOne";
+import ForgotPasswordStepTwo from "../../forgotpassword/components/forgotpasswordmodal/forgotpasswordsteps/ForgotPasswordStepTwo";
 
 export const determineModalContent = (step: number): JSX.Element => {
   switch (step) {
@@ -22,6 +24,19 @@ export const determineModalContent = (step: number): JSX.Element => {
       return <RegisterStepFive />;
     case 6:
       return <RegisterStepSix />;
+    default:
+      return <div>Step {step}</div>;
+  }
+};
+
+export const determineForgotPasswordModalContent = (
+  step: number
+): JSX.Element => {
+  switch (step) {
+    case 1:
+      return <ForgotPasswordStepOne />;
+    case 2:
+      return <ForgotPasswordStepTwo />;
     default:
       return <div>Step {step}</div>;
   }
