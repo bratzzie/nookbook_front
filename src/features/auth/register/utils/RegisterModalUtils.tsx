@@ -9,6 +9,7 @@ import { LoginStepOne } from "../../login/components/loginmodal/loginsteps/Login
 import { LoginStepTwo } from "../../login/components/loginmodal/loginsteps/LoginStepTwo";
 import ForgotPasswordStepOne from "../../forgotpassword/components/forgotpasswordmodal/forgotpasswordsteps/ForgotPasswordStepOne";
 import ForgotPasswordStepTwo from "../../forgotpassword/components/forgotpasswordmodal/forgotpasswordsteps/ForgotPasswordStepTwo";
+import ForgotPasswordStepThree from "../../forgotpassword/components/forgotpasswordmodal/forgotpasswordsteps/ForgotPasswordStepThree";
 
 export const determineModalContent = (step: number): JSX.Element => {
   switch (step) {
@@ -30,13 +31,16 @@ export const determineModalContent = (step: number): JSX.Element => {
 };
 
 export const determineForgotPasswordModalContent = (
-  step: number
+  step: number,
+  toggleModal: () => void
 ): JSX.Element => {
   switch (step) {
     case 1:
       return <ForgotPasswordStepOne />;
     case 2:
       return <ForgotPasswordStepTwo />;
+    case 3:
+      return <ForgotPasswordStepThree toggleModal={toggleModal} />;
     default:
       return <div>Step {step}</div>;
   }

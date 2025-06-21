@@ -12,6 +12,11 @@ interface UpdatePayload {
   value: string | number | boolean;
 }
 
+interface UpdatePassword {
+  email: string;
+  password: string;
+}
+
 interface VerificationCode {
   email: string;
   code: string;
@@ -77,6 +82,16 @@ export const ForgotPasswordSlice = createSlice({
       state.error = action.payload as string;
       return state;
     });
+    builder.addCase(updatePasswordByEmail.fulfilled, (state) => {
+      state.error = "";
+      let nextStep = state.step + 1;
+      state.step = nextStep;
+      return state;
+    });
+    builder.addCase(updatePasswordByEmail.rejected, (state, action) => {
+      state.error = action.payload as string;
+      return state;
+    });
   },
 });
 
@@ -115,6 +130,25 @@ export const validateForgotPasswordCode = createAsyncThunk(
   }
 );
 
+export const updatePasswordByEmail = createAsyncThunk(
+  "auth/forgot/passowrd",
+  async (body: UpdatePassword, thunkAPI) => {
+    try {
+      const req = await axios.put(
+        "http://localhost:8080/auth/forgot/password",
+        body,
+        {
+          headers: {
+            "Content-Type": "application/json",
+          },
+        }
+      );
+      return await req.data;
+    } catch (error: any) {
+      return thunkAPI.rejectWithValue(error.response?.data || error.message);
+    }
+  }
+);
 export const {
   incrementStep,
   decrementStep,

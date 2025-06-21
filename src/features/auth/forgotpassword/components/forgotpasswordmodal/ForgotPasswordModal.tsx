@@ -22,11 +22,20 @@ const ForgotPasswordModal: React.FC<{ toggleModal: () => void }> = ({
     dispatch(decrementStep());
   };
 
+  const toggleForgotPassword = () => {
+    toggleModal();
+    dispatch(cleanForgotPasswordState());
+  };
   return (
     <Modal>
       <div>
         <RegisterStepCounter step={state.step} changeStep={stepButtonClicked} />
-        <div>{determineForgotPasswordModalContent(state.step)}</div>
+        <div>
+          {determineForgotPasswordModalContent(
+            state.step,
+            toggleForgotPassword
+          )}
+        </div>
       </div>
     </Modal>
   );

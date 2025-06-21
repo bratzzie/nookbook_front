@@ -1,71 +1,50 @@
-import React, { useEffect, useState } from "react";
+import React, { useState } from "react";
 import { ValidatedTextInput } from "../../../../../../components/TextInput/ValidatedInput/ValidatedTextInput";
+import { RegisterNextButton } from "../../../../register/components/registernextbutton/RegisterNextButton";
 import { VisibilityOutlined, VisibilityOffOutlined } from "@mui/icons-material";
-import { RegisterNextButton } from "../../registernextbutton/RegisterNextButton";
-import { useSelector, useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { AppDispatch, RootState } from "../../../../../../redux/Store";
-import { updatePassword } from "../../../../../../redux/slices/RegisterSlice";
-import {
-  loginUser,
-  setFromRegistration,
-} from "../../../../../../redux/slices/UserSlice";
-import { useNavigate } from "react-router-dom";
-import "../registersteps.css";
+import { updatePasswordByEmail } from "../../../../../../redux/slices/ForgotPasswordSlice";
 
-export const RegisterStepSix = () => {
-  const [visible, setVisible] = useState<boolean>(false);
+interface ForgotPasswordStepThreeProps {
+  toggleModal: () => void;
+}
+
+const ForgotPasswordStepThree: React.FC<ForgotPasswordStepThreeProps> = ({
+  toggleModal,
+}) => {
+  const [passwordToggle, setPasswordToggle] = useState<boolean>(false);
   const [password, setPassword] = useState<string>("");
-  const state = useSelector((state: RootState) => state);
+  const state = useSelector((state: RootState) => state.forgotPassword);
   const dispatch: AppDispatch = useDispatch();
-  const navigate = useNavigate();
+
+  const sendPassword = async () => {
+    let res = await dispatch(
+      updatePasswordByEmail({ email: state.email, password: password })
+    );
+
+    if (res.meta.requestStatus === "fulfilled") {
+      toggleModal();
+    }
+  };
+  const togglePassword = () => {
+    setPasswordToggle(!passwordToggle);
+  };
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     setPassword(e.target.value);
   };
-
-  const toggleVisibility = () => {
-    setVisible(!visible);
-  };
-
-  const sendPassword = async () => {
-    let res = await dispatch(
-      updatePassword({
-        username: state.register.username,
-        password: password,
-      })
-    );
-
-    if (res.meta.requestStatus === "fulfilled") {
-      dispatch(setFromRegistration(true));
-    }
-  };
-
-  useEffect(() => {
-    if (state.user.loggedIn) {
-      navigate("/feed");
-      return () => {};
-    }
-    if (state.user.fromRegistration) {
-      dispatch(
-        loginUser({
-          username: state.register.username,
-          password: password,
-        })
-      );
-      return;
-    }
-  }, [state.user.fromRegistration, state.user.loggedIn]);
 
   return (
     <div className="reg-step-container">
       <div className="reg-step-content">
         <div className="row">
           <img
-            className="w-1/5"
-            src={`${process.env.PUBLIC_URL}/assets/images/bottle.png`}
+            className="w-1/4 "
+            src={`${process.env.PUBLIC_URL}/assets/images/book.png`}
             alt="placeholder"
           />
-          <h1 className="reg-step-title pt-5">Set up your password</h1>
+          <h1 className="reg-step-title ">Create a new password</h1>
         </div>
         <p className="reg-step-paragraph">
           <span className="text-base">Rules: </span>
@@ -85,11 +64,11 @@ export const RegisterStepSix = () => {
             attributes={{
               minLength: 8,
               maxLength: 20,
-              type: visible ? "text" : "password",
+              type: passwordToggle ? "text" : "password",
             }}
           />
-          <div className="pt-6 pl-2 cursor-pointer" onClick={toggleVisibility}>
-            {visible ? (
+          <div className="pt-6 pl-2 cursor-pointer" onClick={togglePassword}>
+            {passwordToggle ? (
               <VisibilityOutlined sx={{ fontSize: "34px", color: "#6b5e53" }} />
             ) : (
               <VisibilityOffOutlined
@@ -98,8 +77,8 @@ export const RegisterStepSix = () => {
             )}
           </div>
         </div>
-        {state.register.error ? (
-          <p className="text-error text-sm ml-2 mt-1">{state.register.error}</p>
+        {state.error ? (
+          <p className="text-error text-sm ml-2 mt-1">{state.error}</p>
         ) : (
           <></>
         )}
@@ -115,3 +94,5 @@ export const RegisterStepSix = () => {
     </div>
   );
 };
+
+export default ForgotPasswordStepThree;
