@@ -5,7 +5,10 @@ import { ValidatedTextInput } from "../../../../../../components/TextInput/Valid
 import { DisabledValidatedTextInput } from "../../../../../../components/TextInput/ValidatedInput/DisabledValidatedTextInput";
 import { VisibilityOffOutlined, VisibilityOutlined } from "@mui/icons-material";
 import { RegisterNextButton } from "../../../../register/components/registernextbutton/RegisterNextButton";
-import { loginUser } from "../../../../../../redux/slices/UserSlice";
+import {
+  cleanLoginState,
+  loginUser,
+} from "../../../../../../redux/slices/UserSlice";
 import { AppDispatch } from "../../../../../../redux/Store";
 import { validatePassword } from "../../../../../../services/Validators";
 import { useNavigate } from "react-router-dom";
@@ -40,7 +43,7 @@ export const LoginStepTwo: React.FC = () => {
   useEffect(() => {
     if (state.loggedIn) {
       navigate("/home");
-
+      dispatch(cleanLoginState());
       return () => {};
     }
   });

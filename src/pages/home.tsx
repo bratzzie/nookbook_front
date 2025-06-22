@@ -5,8 +5,9 @@ import { RootState, AppDispatch } from "../redux/Store";
 import { useLocalStorage } from "../hooks/useLocalStorage";
 import { setToken } from "../redux/slices/UserSlice";
 import { useNavigate } from "react-router-dom";
+import Navigation from "../components/Navigation/Navigation";
 
-export const Feed: React.FC = () => {
+export const Home: React.FC = () => {
   /*const [imageData, setImageData] = React.useState({});
 
   const getImage = () => {
@@ -46,8 +47,21 @@ export const Feed: React.FC = () => {
   }, []);
 
   return (
-    <div>
-      feed
+    <div
+      className="w-full h-full flex flex-col justify-items-center items-center"
+      style={{
+        backgroundImage: `url('${process.env.PUBLIC_URL}/assets/images/background.png`,
+        backgroundSize: "cover",
+        backgroundPosition: "center",
+      }}
+    >
+      <div className="h-full w-3/4 grid grid-cols-5">
+        <div className="h-full">
+          <Navigation />
+        </div>
+        <div className="h-full  bg-red-400 col-span-2"></div>
+        <div className="h-full bg-yellow-200 col-span-2"></div>
+      </div>
       {/*<button onClick={getImage}>Get Image</button>
       <div className="img">
         <img src={`data:image/jpeg;base64,${imageData}`} alt="" />

@@ -18,6 +18,7 @@ module.exports = {
         success: "#00b6aa",
         link: "#37a4aa;",
         island: "#099b6f",
+        navbar: "#fefefe",
       },
       fontFamily: {
         fink: ["FinkHeavy"],

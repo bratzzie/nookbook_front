@@ -4,7 +4,7 @@ import { Landing } from "./pages/landing";
 import { ThemeProvider, createGlobalStyle } from "styled-components";
 import { theme } from "./Theme";
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
-import { Feed } from "./pages/feed";
+import { Home } from "./pages/home";
 
 const GlobalStyle = createGlobalStyle`
 *{
@@ -18,7 +18,7 @@ export const App = () => {
       <Router>
         <Routes>
           <Route path="/" element={<Landing />} />
-          <Route path="/home" element={<Feed />} />
+          <Route path="/home" element={<Home />} />
         </Routes>
       </Router>
     </ThemeProvider>

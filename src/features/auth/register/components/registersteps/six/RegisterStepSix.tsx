@@ -42,7 +42,7 @@ export const RegisterStepSix = () => {
 
   useEffect(() => {
     if (state.user.loggedIn) {
-      navigate("/feed");
+      navigate("/home");
       return () => {};
     }
     if (state.user.fromRegistration) {
